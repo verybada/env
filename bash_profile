@@ -1,8 +1,10 @@
-if [ -f ~/.bashrc ]; then
-	source ~/.bashrc
-fi
+PS1="\w\$ "
+PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
 
-# Setting PATH for Python 2.7
-# The orginal version is saved in .bash_profile.pysave
-PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
-export PATH
+export SVN_EDITOR="/usr/bin/env vim"
+
+alias ls="ls -G"
+alias tree='tree -C'
+alias diff='colordiff'
+alias less='less -r'
+alias tmux='TERM=xterm-256color tmux'
