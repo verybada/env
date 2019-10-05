@@ -10,7 +10,6 @@ filetype plugin indent on
 syntax on 		
 color desert 			"set themes
 set ic 				"incase sensitive search
-set laststatus=2		"for plugin airline
 set t_Co=256 			"set 256colors
 set mouse=a 			"mouse support
 set winaltkeys=no 		"let alt can be binding
@@ -26,6 +25,9 @@ set smartindent
 set nocompatible 		"disable vi-compatibility mode
 set autochdir 			"auto change folder path
 set backspace=indent,eol,start
+set tabstop=4
+set shiftwidth=4
+set expandtab
 
 let mapleader=',' 		"set leader key
 
@@ -44,9 +46,7 @@ map <leader>rf :set nowrap<CR>
 
 " turn off serach highlighting
 map <leader>/ :nohl<CR>
-map <F7> :SrcExplToggle<CR>
-map <F8> :NERDTreeToggle<CR>
-map <F9> :TlistToggle<CR>
+
 " save & quit
 map <leader>s :w<CR>
 map <leader>S <leader>s
@@ -54,16 +54,7 @@ map <leader>w :wqa!<CR>
 map <leader>W <leader>w
 map <leader>x :call ForceQuit()<CR>
 map <leader>X <leader>x
-
-" switch between windows
-map <M-Left> <C-w>h
-map <M-Right> <C-w>l
-map <M-Up> <C-w>k
-map <M-Down> <C-w>j
-map <F3> <C-w>w
-" move this line up/down
-map <S-Up> :m .-2<CR>
-map <S-Down> :m .+1<CR>
+map <leader>q :bw<CR>
 
 " copy & paste from clipboard
 map <leader>c "+y
@@ -73,17 +64,12 @@ map <leader>v "+p
 "Functions"
 """""""""""
 function ForceQuit()
-	let a:ans = input("Quit without save? (y/N)...")
-	if a:ans == 'y' || a:ans == 'Y'
+	let ans = input("Quit without save? (y/N)...")
+	if ans == 'y' || ans == 'Y'
 		exec ":qa!"
 	else
 		echo 'Cancel'
 	endif
-endfunction
-
-function SetFold()
-	set foldnestmax=2
-	set foldmethod=indent
 endfunction
 
 function SwapIdent()
@@ -106,7 +92,15 @@ function RemoveTailSpace()
 endfunction
 
 function PythonSettings()
-	call SetFold()
+	set foldnestmax=2
+	set foldmethod=indent
+	call SwapIdent()
+	call MaxLenghtTip()
+endfunction
+
+function GoSettings()
+	set foldnestmax=2
+	set foldmethod=syntax
 	call SwapIdent()
 	call MaxLenghtTip()
 endfunction
@@ -115,55 +109,74 @@ endfunction
 "Plugins"
 """""""""
 autocmd BufWritePre *.py call RemoveTailSpace()
+autocmd BufWritePre *.go call RemoveTailSpace()
 autocmd! BufRead,BufNewFile,BufEnter *.py call PythonSettings()
+autocmd! BufRead,BufNewFile,BufEnter *.go call GoSettings()
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+filetype off " Vundle required               
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
 
-" git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 " Install plugins by bundle
-Bundle 'gmarik/vundle'
+Plugin 'VundleVim/Vundle.vim'
 
+"""""""""""""""""
+" General plugins
+"
  "nerdtree
 " 	file browser
-Bundle 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdtree'
 let g:NERDTreeWinPos="right"
+map <F8> :NERDTreeToggle<CR>
 
 " nerdcommenter
 " 	quick toggle comment
-Bundle 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdcommenter'
 
 " vim-airline
 " 	tiny vim status bar
-Bundle 'bling/vim-airline'
-
-" minibufexpl
-" 	control vim buffers like tab
-Bundle 'fholgado/minibufexpl.vim'
-let g:miniBufExplSetUT=0
-let g:miniBufExplorerMoreThanOne=1
-map <leader>1 :MBEbp<CR>
-map <leader>2 :MBEbn<CR>
-map <leader>q :MBEbw<CR>
+Plugin 'bling/vim-airline'
+set laststatus=2		"for plugin airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
 
 " autoclose
 " 	auto complete a pair of brackets
-Bundle 'Townk/vim-autoclose'
+Plugin 'jiangmiao/auto-pairs'
 
 " Ycm
-Bundle 'Valloric/YouCompleteMe'
+Plugin 'ycm-core/YouCompleteMe'
 " let select key not using arrow key
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_key_list_select_completion = ['<TAB>']
 let g:ycm_key_list_previous_completion = ['<S-TAB>']
 
-" YankRing
-Bundle 'vim-scripts/YankRing.vim'
-
+"""""""""""""""""
+" Python plugins
+"
 " vim-indent-object
 " 	Using shortcut to select a block which without {}
-Bundle 'michaeljsmith/vim-indent-object'
+Plugin 'michaeljsmith/vim-indent-object'
 
 " vim-python-pep8-indent
 "	 Let vim follow pep8 indent
-Bundle 'hynek/vim-python-pep8-indent'
+Plugin 'hynek/vim-python-pep8-indent'
+
+"""""""""""""""""
+" Go plugins
+"
+" vim-go
+Plugin 'fatih/vim-go'
+let g:go_highlight_functions = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_function_arguments = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_build_constraints = 1
+" let g:go_fold_enable = ['block', 'package_comment', 'comment']
+let g:go_fold_enable = ['package_comment', 'comment']
+
+call vundle#end() 
+filetype plugin indent on 
