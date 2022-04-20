@@ -136,10 +136,14 @@ Plugin 'scrooloose/nerdcommenter'
 
 " vim-airline
 " 	tiny vim status bar
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 set laststatus=2		"for plugin airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 
 " autoclose
 " 	auto complete a pair of brackets
@@ -151,6 +155,8 @@ Plugin 'ycm-core/YouCompleteMe'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_key_list_select_completion = ['<TAB>']
 let g:ycm_key_list_previous_completion = ['<S-TAB>']
+map gd :YcmCompleter GoTo<CR>
+map gD :YcmCompleter GoToReferences<CR>
 
 """""""""""""""""
 " Python plugins
@@ -162,6 +168,13 @@ Plugin 'michaeljsmith/vim-indent-object'
 " vim-python-pep8-indent
 "	 Let vim follow pep8 indent
 Plugin 'hynek/vim-python-pep8-indent'
+
+" python-syntx
+"	 Syntax hightlight
+Plugin 'vim-python/python-syntax'
+let g:python_highlight_builtins = 1
+let g:python_highlight_exceptions = 1
+let g:python_highlight_func_calls = 1
 
 """""""""""""""""
 " Go plugins
@@ -177,6 +190,11 @@ let g:go_highlight_fields = 1
 let g:go_highlight_build_constraints = 1
 " let g:go_fold_enable = ['block', 'package_comment', 'comment']
 let g:go_fold_enable = ['package_comment', 'comment']
+
+
+""""""""""""
+Plugin 'preservim/tagbar'
+map <F9> :TagbarToggle<CR>
 
 call vundle#end() 
 filetype plugin indent on 
