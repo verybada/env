@@ -1,9 +1,9 @@
 """""""""""""""""
 "Global settings"
 """""""""""""""""
-set guioptions=aegilt
+"set guioptions=aegilt
 "set guifont=Monospace\ 14
-"set guifont=Menlo\ Regular:h14
+set guifont=Menlo\ Regular:h14
 
 filetype on
 filetype plugin indent on
@@ -80,7 +80,7 @@ endfunction
 
 function MaxLenghtTip()
 	if exists('+colorcolumn')
-		set colorcolumn=80
+		set colorcolumn=100
 	else
 		au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
 	endif
@@ -112,6 +112,11 @@ autocmd BufWritePre *.py call RemoveTailSpace()
 autocmd BufWritePre *.go call RemoveTailSpace()
 autocmd! BufRead,BufNewFile,BufEnter *.py call PythonSettings()
 autocmd! BufRead,BufNewFile,BufEnter *.go call GoSettings()
+
+augroup black_on_save
+  autocmd!
+  autocmd BufWritePre *.py Black
+augroup end
 
 filetype off " Vundle required               
 set rtp+=~/.vim/bundle/Vundle.vim/
@@ -155,8 +160,14 @@ Plugin 'ycm-core/YouCompleteMe'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_key_list_select_completion = ['<TAB>']
 let g:ycm_key_list_previous_completion = ['<S-TAB>']
+let g:ycm_global_ycm_extra_conf = '~/.global_extra_conf.py'
 map gd :YcmCompleter GoTo<CR>
 map gD :YcmCompleter GoToReferences<CR>
+Plugin 'vim-scripts/dbext.vim'
+
+" black
+Plugin 'psf/black'
+let g:black_linelength = 100
 
 """""""""""""""""
 " Python plugins
@@ -196,5 +207,21 @@ let g:go_fold_enable = ['package_comment', 'comment']
 Plugin 'preservim/tagbar'
 map <F9> :TagbarToggle<CR>
 
+""""""""""""
+Plugin 'heavenshell/vim-pydocstring'
+let g:pydocstring_formatter = 'Google'
+let g:pydocstring_doq_path = '/Users/g02167/.pyenv/shims/doq'
+
 call vundle#end() 
 filetype plugin indent on 
+
+
+
+""""""""""""
+" markdown
+Plugin 'godlygeek/tabular'
+Plugin 'preservim/vim-markdown'
+""""""""""""
+
+
+
