@@ -206,22 +206,3 @@ let g:go_fold_enable = ['package_comment', 'comment']
 """"""""""""
 Plugin 'preservim/tagbar'
 map <F9> :TagbarToggle<CR>
-
-""""""""""""
-Plugin 'heavenshell/vim-pydocstring'
-let g:pydocstring_formatter = 'Google'
-let g:pydocstring_doq_path = '/Users/g02167/.pyenv/shims/doq'
-
-call vundle#end() 
-filetype plugin indent on 
-
-
-
-""""""""""""
-" markdown
-Plugin 'godlygeek/tabular'
-Plugin 'preservim/vim-markdown'
-""""""""""""
-
-
-
