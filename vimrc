@@ -206,3 +206,8 @@ let g:go_fold_enable = ['package_comment', 'comment']
 """"""""""""
 Plugin 'preservim/tagbar'
 map <F9> :TagbarToggle<CR>
+
+
+""""""""""""
+call vundle#end()
+filetype plugin indent on
