@@ -201,6 +201,7 @@ let g:go_highlight_fields = 1
 let g:go_highlight_build_constraints = 1
 " let g:go_fold_enable = ['block', 'package_comment', 'comment']
 let g:go_fold_enable = ['package_comment', 'comment']
+map g. :GoBuildTags ''<CR>
 
 
 """"""""""""
